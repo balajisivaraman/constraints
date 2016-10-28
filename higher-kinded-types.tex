@@ -1,0 +1,50 @@
+\begin{section}{Type Classes and Higher-Kinded Types}
+\begin{frame}[fragile]
+  \frametitle{Functor Typeclass}
+  \begin{lstlisting}[style=scala]
+    trait Functor[F[_]] {
+      def map[A, B](fa: F[A])(f: A => B): F[B]
+    }
+  \end{lstlisting}
+\end{frame}
+
+\begin{frame}[fragile]
+  \frametitle{Different Instances}
+  \begin{lstlisting}[style=scala]
+    implicit object ListFunctor extends Functor[List] {
+      def map[A, B](fa: List[A])(f: A => B): List[B] = fa.map(f)
+    }
+    implicit object OptionFunctor extends Functor[Option] {
+      def map[A, B](fa: Option[A])(f: A => B): Option[B] = fa.map(f)
+    }
+  \end{lstlisting}
+\end{frame}
+
+\begin{frame}[fragile]
+  \frametitle{How is this better?}
+  \begin{itemize}
+  \item Functor Laws as property tests
+  \item Any created instance has to adhere to Functor Laws?
+  \end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]
+  \begin{lstlisting}[style=scala]
+    trait Functor[F[_]] {
+      def map[A, B](fa: F[A])(f: A => B): F[B]
+
+      def lift[A, B](f: A => B): F[A] => F[B] =  ???
+    }
+  \end{lstlisting}
+\end{frame}
+
+\begin{frame}[fragile]
+  \begin{lstlisting}[style=scala]
+    trait Functor[F[_]] {
+      def map[A, B](fa: F[A])(f: A => B): F[B]
+
+      def lift[A, B](f: A => B): F[A] => F[B] =  fa => map(fa)(f)
+    }
+  \end{lstlisting}
+\end{frame}
+\end{section}

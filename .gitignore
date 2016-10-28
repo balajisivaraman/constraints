@@ -5,3 +5,7 @@
 *.snm
 *.toc
 *.vrb
+*.bbl
+*.blg
+*.bcf
+*.run.xml

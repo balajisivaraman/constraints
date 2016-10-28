@@ -1,0 +1,32 @@
+\begin{section}{What Needs To Be Done?}
+\begin{frame}[fragile]{Types to the Rescue}
+  \begin{lstlisting}[style=scala]
+    def add(a: Int, b: Int): Int = {
+      //...
+    }
+  \end{lstlisting}
+\end{frame}
+
+\begin{frame}[fragile]{Much Better}
+  \begin{itemize}
+  \item Function returns an Int
+  \item So it is safe to assume it does what it says?
+  \end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]{But Wait...}
+  \begin{lstlisting}[style=scala]
+    def add(a: Int, b: Int): Int = {
+      a - b
+    }
+  \end{lstlisting}
+\end{frame}
+
+\begin{frame}[fragile]{Types Alone Aren't Enough}
+  \begin{itemize}
+  \item Gives implementor too much knowledge
+  \item Gives user/reader too little info about implementation
+  \end{itemize}
+\end{frame}
+
+\end{section}

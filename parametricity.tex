@@ -1,0 +1,64 @@
+\begin{section}{Parametricity}
+\begin{frame}
+\frametitle{Parametricity}
+\begin{block}{Philip Wadler \cite{Wadler89theoremsfor} writes:}
+\begin{quotation}
+Write down the definition of a polymorphic function on a piece of paper. Tell me its type, but be careful not to let me see the function's definition. I will tell you a theorem that the function satisfies.
+
+The purpose of this paper is to explain the trick.
+\end{quotation}
+\end{block}
+\end{frame}
+
+\begin{frame}[fragile]
+\frametitle{A Simple Parametrically Polymorphic Function}
+  Can you guess what this function does just by looking at it?
+  \begin{lstlisting}[style=scala]
+    def doSomething[A](a: A, b: A): A = {
+      //...
+    }
+  \end{lstlisting}
+\end{frame}
+
+\begin{frame}{How did we do it?}
+  \begin{center}
+    \begin{itemize}
+    \item Parametricity
+    \item Implementor is extremely constrained
+    \item Reader doesn't have to look under the covers
+    \end{itemize}
+\end{center}
+\end{frame}
+
+\begin{frame}[fragile]
+\frametitle{Another (familiar?) Parametrically Polymorphic Function}
+  Can you guess what this function does just by looking at it?
+  \begin{lstlisting}[style=scala]
+    def doSomethingElse[A, B](a: List[A])
+                             (f: A => B): List[B] =
+    {
+      //...
+    }
+  \end{lstlisting}
+\end{frame}
+
+\begin{frame}[fragile]{But wait...}
+    \begin{lstlisting}[style=scala]
+    def doSomethingElse[A, B](a: List[A])
+                             (f: A => B): List[B] =
+    {
+      List(f(a.head))
+    }
+  \end{lstlisting}
+\end{frame}
+
+\begin{frame}{What Happened There?}
+  \begin{itemize}
+    \item Parametric Polymorphism alone isn't enough
+    \item Implementor sometimes still has too much to work with
+    \item Reader sometimes still has to look under the covers to feel
+      really safe
+  \end{itemize}
+\end{frame}
+
+\end{section}
