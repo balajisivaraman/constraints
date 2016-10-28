@@ -1,0 +1,261 @@
+\documentclass[bigger]{beamer}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{fixltx2e}
+\usepackage{graphicx}
+\usepackage{grffile}
+\usepackage{longtable}
+\usepackage{wrapfig}
+\usepackage{rotating}
+\usepackage[normalem]{ulem}
+\usepackage{amsmath}
+\usepackage{textcomp}
+\usepackage{amssymb}
+\usepackage{capt-of}
+\usepackage{hyperref}
+\usepackage{listings}
+
+% \usetheme{Copenhagen}
+\usetheme{metropolis}
+\metroset{numbering=fraction}
+\setsansfont{Noto Sans}
+\setmonofont{PragmataPro}
+
+\author{Balaji Sivaraman (\href{https://twitter.com/balajisivaraman}{@balajisivaraman})}
+\date{November 3, 2016}
+\title{Free Yourself With Constraints}
+\institute{ThoughtWorks}
+\hypersetup{
+ pdfauthor={Balaji Sivaraman},
+ pdftitle={Free Yourself With Constraints},
+ pdfkeywords={functional programming, parametricity, typed fp, higher-kinded types},
+ pdfsubject={A talk on how constraints help us write readable programs},
+ pdflang={English}}
+
+\begin{document}
+
+\xdefinecolor{darkgreen}{rgb}{0,0.35,0}
+\lstset{
+  tabsize=2,
+  basicstyle=\ttfamily,
+  moredelim=**[is][\btHL]{`}{`}
+}
+\lstdefinestyle{java}{
+  language=java,
+  basicstyle=\footnotesize\ttfamily,
+  stringstyle=\color{darkgreen}\ttfamily,
+  commentstyle=\color{gray}\ttfamily,
+  keywordstyle=\footnotesize\color{blue}\ttfamily,
+  tabsize=2,
+  moredelim=**[is][\btHL]{`}{`}
+}
+\lstdefinelanguage{scala}{
+  morekeywords={abstract,case,catch,class,def,%
+    do,else,extends,false,final,finally,%
+    for,forSome,if,implicit,import,lazy,match,%
+    new,null,object,override,package,%
+    private,protected,requires,return,sealed,%
+    super,this,throw,trait,true,try,%
+    type,val,var,while,with,yield},
+  otherkeywords={=,=>,<-,<\%,<:,>:,\#,@},
+  sensitive=true,
+  morecomment=[l]{//},
+  morecomment=[n]{/*}{*/},
+  morestring=[b]",
+  morestring=[b]',
+  morestring=[b]"""
+}
+\lstdefinelanguage{haskell}{
+  morekeywords={class,instance,where,do,data,newtype,default,deriving,module},
+  otherkeywords={<-},
+  sensitive=true,
+  morecomment=[l]{--},
+  morecomment=[n]{\{-}{-\}}, 
+  morestring=[b]",
+  morestring=[b]',
+  morestring=[b]"""
+}
+\lstdefinestyle{scala}{
+  language=scala,
+  basicstyle=\footnotesize\ttfamily,
+  stringstyle=\color{darkgreen}\ttfamily,
+  commentstyle=\color{gray}\ttfamily,
+  keywordstyle=\footnotesize\color{blue}\ttfamily,
+  tabsize=2,
+  moredelim=**[is][\btHL]{`}{`}
+}
+\lstdefinestyle{haskell}{
+  language=haskell,
+  basicstyle=\tiny\ttfamily,
+  stringstyle=\color{darkgreen}\ttfamily,
+  commentstyle=\color{gray}\ttfamily,
+  keywordstyle=\tiny\color{blue}\ttfamily,
+  tabsize=2
+}
+\lstdefinelanguage{JavaScript}{
+  keywords={typeof, new, true, false, catch, function, return, null, catch, switch, var, if, in, while, do, else, case, break},
+  keywordstyle=\color{blue}\bfseries,
+  ndkeywords={class, export, boolean, throw, implements, import, this},
+  ndkeywordstyle=\color{darkgray}\bfseries,
+  identifierstyle=\color{black},
+  sensitive=false,
+  comment=[l]{//},
+  morecomment=[s]{/*}{*/},
+  commentstyle=\color{purple}\ttfamily,
+  stringstyle=\color{red}\ttfamily,
+  morestring=[b]',
+  morestring=[b]"
+}
+
+\lstdefinestyle{javascript}{
+   language=JavaScript,
+   extendedchars=true,
+   basicstyle=\footnotesize\ttfamily,
+   showstringspaces=false,
+   showspaces=false,
+   tabsize=4,
+   breaklines=true,
+   showtabs=false,
+   captionpos=b
+}
+\maketitle
+
+\begin{frame}{Agenda}
+  \begin{itemize}
+  \item Ground Rules
+  \item Constraints Already Imposed By FP
+  \item Why They Aren't Enough?
+  \item What Needs To Be Done?
+  \item Conclusion
+  \item Questions?
+  \end{itemize}
+\end{frame}
+
+\begin{frame}{Ground Rules}
+  Properties of programs considered
+  \begin{itemize}
+  \item Reasoning
+  \item Readability
+  \item Reusability
+  \end{itemize}
+  Properties of programs not considered
+  \begin{itemize}
+  \item Performance
+  \end{itemize}
+\end{frame}
+
+\begin{frame}{Constraints Already Imposed By FP}
+  \begin{itemize}
+  \item Immutability
+  \item Referential Transparency (Unmodifiable Parameters to Functions)
+  \end{itemize}
+\end{frame}
+
+\begin{frame}{Why Are They Necessary?}
+  \begin{itemize}
+  \item Equational Reasoning
+  \item Ease of Refactoring
+  \end{itemize}
+\end{frame}
+
+\begin{section}{Why Aren't They Enough?}
+
+\begin{frame}[fragile]{Let's take a simple function}
+  Can you guess what it does just by looking at it?
+  \begin{lstlisting}[style=javascript]
+    function add(var a, var b) {
+      //...
+    }
+  \end{lstlisting}
+\end{frame}
+
+\begin{frame}{How did we do it?}
+  \begin{center}
+    \begin{itemize}
+    \item Name Inference
+    \item Number of Arguments
+    \item Past Experience With Similar Functions
+    \item ???
+    \end{itemize}
+\end{center}
+\end{frame}
+
+\begin{frame}[fragile]{But wait...}
+    \begin{lstlisting}[style=javascript]
+    function add(var a, var b) {
+      return a.toString() + b.toString();
+    }
+  \end{lstlisting}
+\end{frame}
+
+\begin{frame}{What Happened There?}
+  \begin{itemize}
+    \item No real way to understand code without looking under the covers
+    \item Every other form of reasoning can and will fail at some point
+    \item There simply isn't enough information for the reader
+    \item Gives the implementor too much power
+  \end{itemize}
+\end{frame}
+
+\end{section}
+
+\begin{section}{What Needs To Be Done?}
+\begin{frame}[fragile]{Types to the Rescue}
+  \begin{lstlisting}[style=scala]
+    def add(a: Int, b: Int): Int = {
+      //...
+    }
+  \end{lstlisting}
+\end{frame}
+
+\begin{frame}[fragile]{Much Better}
+  \begin{itemize}
+  \item Function Returns an Int
+  \item So it is safe to assume it does what it says? 
+  \end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]{But Wait...}
+  \begin{lstlisting}[style=scala]
+    def add(a: Int, b: Int): Int = {
+      a - b
+    }
+  \end{lstlisting}
+\end{frame}
+
+\begin{frame}[fragile]{Types Alone Aren't Enough}
+  \begin{itemize}
+  \item Gives implementor too much knowledge
+  \item Gives user/reader too little info about implementation
+  \end{itemize}
+\end{frame}
+
+\end{section}
+
+\begin{section}{Parametricity}
+\begin{frame}
+\frametitle{The Journey}
+\framesubtitle{Theorems for Free!}
+\begin{block}{Philip Wadler \cite{wadler1989theorems} tells us:}
+\begin{quotation}
+Write down the definition of a polymorphic function on a piece of paper. Tell me its type, but be careful not to let me see the function's definition. I will tell you a theorem that the function satisfies.
+
+The purpose of this paper is to explain the trick.
+\end{quotation}
+\end{block}
+\end{frame}
+\end{section}
+
+\begin{frame}
+\frametitle{References}
+
+\bibliographystyle{amsalpha}
+\bibliography{parametricity}
+
+\end{frame}
+
+\begin{frame}
+Thank you!
+\end{frame}
+
+\end{document}
