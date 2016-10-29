@@ -2,14 +2,14 @@
 
 \begin{frame}{Constraints Already Imposed By FP}
   \begin{itemize}
-  \item Immutability
-  \item Referential Transparency (Unmodifiable Parameters to Functions)
+  \item Immutability - Functions cannot modify global variables, throw errors etc.
   \end{itemize}
 \end{frame}
 
 \begin{frame}{Why Are They Necessary?}
   \begin{itemize}
-  \item Equational Reasoning
+  \item Referential Transparency - Functions must produce same output given same input values
+  \item Equational Reasoning - Function calls can be replaced by the values they compute to understand code more easily
   \item Ease of Refactoring
   \end{itemize}
 \end{frame}

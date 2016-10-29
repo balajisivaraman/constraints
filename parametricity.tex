@@ -23,9 +23,9 @@ The purpose of this paper is to explain the trick.
 \begin{frame}{How did we do it?}
   \begin{center}
     \begin{itemize}
-    \item Parametricity
-    \item Implementor is extremely constrained
-    \item Reader doesn't have to look under the covers
+    \item Power of parametric polymorphism
+    \item Very little power for the implementor
+    \item Lot of info available to the reader from definition
     \end{itemize}
 \end{center}
 \end{frame}
@@ -34,8 +34,7 @@ The purpose of this paper is to explain the trick.
 \frametitle{Another (familiar?) Parametrically Polymorphic Function}
   Can you guess what this function does just by looking at it?
   \begin{lstlisting}[style=scala]
-    def doSomethingElse[A, B](a: List[A])
-                             (f: A => B): List[B] =
+    def doSomethingElse[A, B](a: List[A])(f: A => B): List[B] =
     {
       //...
     }
@@ -44,8 +43,7 @@ The purpose of this paper is to explain the trick.
 
 \begin{frame}[fragile]{But wait...}
     \begin{lstlisting}[style=scala]
-    def doSomethingElse[A, B](a: List[A])
-                             (f: A => B): List[B] =
+    def doSomethingElse[A, B](a: List[A])(f: A => B): List[B] =
     {
       List(f(a.head))
     }
@@ -54,10 +52,9 @@ The purpose of this paper is to explain the trick.
 
 \begin{frame}{What Happened There?}
   \begin{itemize}
-    \item Parametric Polymorphism alone isn't enough
-    \item Implementor sometimes still has too much to work with
-    \item Reader sometimes still has to look under the covers to feel
-      really safe
+    \item Parametric polymorphism alone isn't enough
+    \item Implementor sometimes still has too much info to work with
+    \item Reader sometimes still has to look under the covers to feel really safe
   \end{itemize}
 \end{frame}
 

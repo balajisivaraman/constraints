@@ -23,12 +23,14 @@
 \begin{frame}[fragile]
   \frametitle{How is this better?}
   \begin{itemize}
-  \item Functor Laws as property tests
-  \item Any created instance has to adhere to Functor Laws?
+  \item Only one instance of each class in our entire application
+  \item Functor laws as property tests (QuickCheck, ScalaCheck etc.)
+  \item Created instances have to adhere to Functor laws
   \end{itemize}
 \end{frame}
 
 \begin{frame}[fragile]
+  \frametitle{Reusability}
   \begin{lstlisting}[style=scala]
     trait Functor[F[_]] {
       def map[A, B](fa: F[A])(f: A => B): F[B]
@@ -39,6 +41,7 @@
 \end{frame}
 
 \begin{frame}[fragile]
+  \frametitle{Reusability}
   \begin{lstlisting}[style=scala]
     trait Functor[F[_]] {
       def map[A, B](fa: F[A])(f: A => B): F[B]
@@ -48,3 +51,12 @@
   \end{lstlisting}
 \end{frame}
 \end{section}
+
+\begin{frame}[fragile]
+  \frametitle{Reusability}
+  \begin{itemize}
+  \item Many typeclasses already available (Scalaz, Cats) - Functor, Applicative, Monad, Traverse etc
+  \item Easy to define instances for our classes or new typeclasses themselves
+  \item Typeclasses, by definition, are parametrically polymorphic giving them many compile time benefits
+  \end{itemize}
+\end{frame}
