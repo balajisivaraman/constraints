@@ -13,11 +13,11 @@ The purpose of this paper is to explain the trick.
 \begin{frame}[fragile]
 \frametitle{A Simple Parametrically Polymorphic Function}
   Can you guess what this function does just by looking at it?
-  \begin{lstlisting}[style=scala]
+  \begin{minted}{scala}
     def doSomething[A](a: A, b: A): A = {
       //...
     }
-  \end{lstlisting}
+  \end{minted}
 \end{frame}
 
 \begin{frame}{How did we do it?}
@@ -33,21 +33,21 @@ The purpose of this paper is to explain the trick.
 \begin{frame}[fragile]
 \frametitle{Another (familiar?) Parametrically Polymorphic Function}
   Can you guess what this function does just by looking at it?
-  \begin{lstlisting}[style=scala]
+  \begin{minted}{scala}
     def doSomethingElse[A, B](a: List[A])(f: A => B): List[B] =
     {
       //...
     }
-  \end{lstlisting}
+  \end{minted}
 \end{frame}
 
 \begin{frame}[fragile]{But wait...}
-    \begin{lstlisting}[style=scala]
+  \begin{minted}{scala}
     def doSomethingElse[A, B](a: List[A])(f: A => B): List[B] =
     {
       List(f(a.head))
     }
-  \end{lstlisting}
+  \end{minted}
 \end{frame}
 
 \begin{frame}{What Happened There?}

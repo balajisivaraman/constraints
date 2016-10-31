@@ -12,8 +12,9 @@
 \usepackage{amssymb}
 \usepackage{capt-of}
 \usepackage{hyperref}
-\usepackage{listings,lstautogobble}
 \usepackage{biblatex}
+\usepackage{minted}
+\setminted{autogobble=true,fontsize=\footnotesize}
 \addbibresource{constraints.bib}
 
 \setbeamersize{text margin left=0.6cm,text margin right=0.6cm}
@@ -33,94 +34,6 @@
 
 \begin{document}
 
-\xdefinecolor{darkgreen}{rgb}{0,0.35,0}
-\lstset{
-  basicstyle=\footnotesize\ttfamily,
-  tabsize=2,
-  columns=flexible,
-  autogobble=true,
-  moredelim=**[is][\btHL]{`}{`}
-}
-\lstdefinestyle{java}{
-  language=java,
-  basicstyle=\footnotesize\ttfamily,
-  stringstyle=\color{darkgreen}\ttfamily,
-  commentstyle=\color{gray}\ttfamily,
-  keywordstyle=\footnotesize\color{blue}\ttfamily,
-  tabsize=2,
-  moredelim=**[is][\btHL]{`}{`}
-}
-\lstdefinelanguage{scala}{
-  morekeywords={abstract,case,catch,class,def,%
-    do,else,extends,false,final,finally,%
-    for,forSome,if,implicit,import,lazy,match,%
-    new,null,object,override,package,%
-    private,protected,requires,return,sealed,%
-    super,this,throw,trait,true,try,%
-    type,val,var,while,with,yield},
-  otherkeywords={=,=>,<-,<\%,<:,>:,\#,@},
-  sensitive=true,
-  morecomment=[l]{//},
-  morecomment=[n]{/*}{*/},
-  morestring=[b]",
-  morestring=[b]',
-  morestring=[b]"""
-}
-\lstdefinelanguage{haskell}{
-  morekeywords={class,instance,where,do,data,newtype,default,deriving,module},
-  otherkeywords={<-},
-  sensitive=true,
-  morecomment=[l]{--},
-  morecomment=[n]{\{-}{-\}}, 
-  morestring=[b]",
-  morestring=[b]',
-  morestring=[b]"""
-}
-\lstdefinestyle{scala}{
-  language=scala,
-  basicstyle=\footnotesize\ttfamily,
-  stringstyle=\small\color{darkgreen}\ttfamily,
-  commentstyle=\small\color{gray}\ttfamily,
-  keywordstyle=\footnotesize\color{blue}\ttfamily,
-  tabsize=2,
-  columns=flexible,
-  autogobble=true,
-  moredelim=**[is][\btHL]{`}{`}
-}
-\lstdefinestyle{haskell}{
-  language=haskell,
-  basicstyle=\tiny\ttfamily,
-  stringstyle=\color{darkgreen}\ttfamily,
-  commentstyle=\color{gray}\ttfamily,
-  keywordstyle=\tiny\color{blue}\ttfamily,
-  tabsize=2
-}
-\lstdefinelanguage{JavaScript}{
-  keywords={typeof, new, true, false, catch, function, return, null, catch, switch, var, if, in, while, do, else, case, break},
-  keywordstyle=\color{blue}\bfseries,
-  ndkeywords={class, export, boolean, throw, implements, import, this},
-  ndkeywordstyle=\color{darkgray}\bfseries,
-  identifierstyle=\color{black},
-  sensitive=false,
-  comment=[l]{//},
-  morecomment=[s]{/*}{*/},
-  commentstyle=\color{purple}\ttfamily,
-  stringstyle=\color{red}\ttfamily,
-  morestring=[b]',
-  morestring=[b]"
-}
-
-\lstdefinestyle{javascript}{
-   language=JavaScript,
-   extendedchars=true,
-   basicstyle=\footnotesize\ttfamily,
-   showstringspaces=false,
-   showspaces=false,
-   tabsize=4,
-   breaklines=true,
-   showtabs=false,
-   captionpos=b
-}
 \maketitle
 
 \input{about-me}
