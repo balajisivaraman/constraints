@@ -6,6 +6,19 @@
       def map[A, B](fa: F[A])(f: A => B): F[B]
     }
   \end{minted}
+  \begin{itemize}
+  \item{Here \mintinline{scala}{F[_]} denotes a higher-kinded type}
+  \item Think of them as analogous to higher-order functions at the type level, i.e. they take a type themselves
+  \end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]
+  \frametitle{Why Type Classes and HKTs?}
+  \begin{itemize}
+  \item Instances are created for the Functor typeclass for each \mintinline{scala}{F[_]}, i.e. List, Option etc.
+  \item These instances are distinct entities, completely separate from the Typeclass itself
+  \item Just like HOFs, HKTs give you the ability to abstract over the type constructor itself, which has numerous benefits in practice
+  \end{itemize}
 \end{frame}
 
 \begin{frame}[fragile]
@@ -14,6 +27,7 @@
     implicit object ListFunctor extends Functor[List] {
       def map[A, B](fa: List[A])(f: A => B): List[B] = fa.map(f)
     }
+
     implicit object OptionFunctor extends Functor[Option] {
       def map[A, B](fa: Option[A])(f: A => B): Option[B] = fa.map(f)
     }
@@ -24,6 +38,7 @@
   \frametitle{How is this better?}
   \begin{itemize}
   \item Only one instance of each class in our entire application
+  \item Typeclasses are a purely compile-time construct, search and verification of instances is at compile-time
   \item Functor laws as property tests (QuickCheck, ScalaCheck etc.)
   \item Created instances have to adhere to Functor laws
   \end{itemize}
